@@ -1,10 +1,10 @@
-from fastapi import FastAPI, Body, Header, File
+from fastapi import FastAPI, Body, Header, File, APIRouter
 from models.users import User
 from starlette.status import HTTP_201_CREATED
 from starlette.responses import Response
 
 
-app_v2 = FastAPI(openapi_prefix="/v2")
+app_v2 = APIRouter()
 
 # add custom headers in the user endpoint, defined inside function post_user
 @app_v2.post("/user", status_code=HTTP_201_CREATED)
