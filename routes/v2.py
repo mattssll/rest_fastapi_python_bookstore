@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Body, Header, File, APIRouter
-from models.users import User
+from models.user import User
 from starlette.status import HTTP_201_CREATED
 from starlette.responses import Response
 

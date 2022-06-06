@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Body, Header, File, APIRouter
-from models.users import User
+from models.user import User
 from models.author import Author
 from models.book import Book
 from starlette.status import HTTP_201_CREATED, HTTP_401_UNAUTHORIZED
@@ -27,26 +27,27 @@ async def get_user_validation(password: str):  # query parameters
 
 # adding response_model, we tell our endpoint it will return a Book class
 # path parameter below
-@app_v1.get("/book/name/{name}", response_model=Book, response_model_include=["name", "year"], tags=["Book"])
-async def get_book_with_isbn(name: str):
+@app_v1.get("/book/{isbn}", response_model=Book, response_model_include=["isbn","name", "year"], tags=["Book"])
+async def get_book_with_isbn(isbn: int):
     author_dict = {
+        "isbn" : 1,
         "name" : "author1",
-        "book" : ["book1", "book2"]
+        "books" : ["book1", "book2"]
     }
     author1 = Author(**author_dict)
     book_dict = {
-        "isbn" : "isbn1",
+        "id" : 1,
         "name" : "book1",
         "year" : 2019,
-        "author" :author1
+        "author" : author1
     }
     book1 = Book(**book_dict)
     return book1 # with that we can easily return our full object that we want to get
 
 
-@app_v1.get("/author/{id}/book", tags=["Book"])
-async def get_authors_books(id: int, category: str, order: str = "asc"):  # query parameters
-    return {"query parameter": order + category + str(id)}
+@app_v1.get("/author/{id}/books", tags=["Author"])
+async def get_authors_books(id: int, order: str = "asc"):  # query parameters
+    return {"query parameter": order + str(id)}
 
 
 @app_v1.patch("/author/name", tags = ["Author"])

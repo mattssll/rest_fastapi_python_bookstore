@@ -10,7 +10,9 @@ from fastapi.security import OAuth2PasswordRequestForm
 from utils.security import authenticate_user, create_jwt_token
 from models.jwt_user import JWTUser
 from utils.const import TOKEN_SUMMARY, TOKEN_DESCRIPTION
+from utils.database import start_database
 
+start_database()
 app = FastAPI(title="Bookstore API Swagger Documentation", description="API That manages a bookstore", version="1.0.0")
 
 app.include_router(app_v1, prefix="/v1", dependencies=[Depends(check_jwt_token)])
